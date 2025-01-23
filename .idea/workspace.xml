@@ -4,12 +4,19 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="350e4d91-55e5-440f-b0c5-f3cdb26f0618" name="Changes" comment="creating project">
-      <change afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
+    <list default="true" id="350e4d91-55e5-440f-b0c5-f3cdb26f0618" name="Changes" comment="initialize player, player functions and class main">
+      <change afterPath="$PROJECT_DIR$/assets/background/bg.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/font/DoodleJump.ttf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/player/left.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/player/left_jump.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/player/right.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/player/right_jump.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/player/shoot.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/player/shoot_jump.png" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/platforms.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/player.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/settings.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/player.py" beforeDir="false" afterPath="$PROJECT_DIR$/player.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -51,6 +58,7 @@
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
     "Python.main.executor": "Run",
+    "Python.player.executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.git.unshallow": "true",
     "git-widget-placeholder": "master",
@@ -63,6 +71,13 @@
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\pavel\PycharmProjects\PythonProject\assets\font" />
+      <recent name="C:\Users\pavel\PycharmProjects\PythonProject\assets\player" />
+      <recent name="C:\Users\pavel\PycharmProjects\PythonProject\assets\background" />
+    </key>
+  </component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
@@ -81,7 +96,7 @@
       <updated>1737388177127</updated>
       <workItem from="1737388178160" duration="2391000" />
       <workItem from="1737569394392" duration="1930000" />
-      <workItem from="1737646596097" duration="4190000" />
+      <workItem from="1737646596097" duration="9491000" />
     </task>
     <task id="LOCAL-00001" summary="creating project">
       <option name="closed" value="true" />
@@ -91,17 +106,38 @@
       <option name="project" value="LOCAL" />
       <updated>1737388303944</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="initialize player, player functions and class main">
+      <option name="closed" value="true" />
+      <created>1737651369161</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1737651369163</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
   </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="creating project" />
-    <option name="LAST_COMMIT_MESSAGE" value="creating project" />
+    <MESSAGE value="initialize player, player functions and class main" />
+    <option name="LAST_COMMIT_MESSAGE" value="initialize player, player functions and class main" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/PythonProject$main.coverage" NAME="main Coverage Results" MODIFIED="1737650819296" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/PythonProject$player.coverage" NAME="player Coverage Results" MODIFIED="1737654562161" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/PythonProject$main.coverage" NAME="main Coverage Results" MODIFIED="1737656078572" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
 </project>

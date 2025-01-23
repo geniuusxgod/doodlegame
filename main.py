@@ -11,8 +11,9 @@ class Main:
         self.screen = pygame.display.set_mode((WIDTH, HEIGHT))
         pygame.display.set_caption("Doodle Jump Clone")
         self.clock = pygame.time.Clock()
-        self.font = pygame.font.Font(None, 36)
+        self.font = pygame.font.Font(join('assets', 'font', 'DoodleJump.ttf'), 36)
 
+        self.background = pygame.image.load(join("assets", "background", "bg.png")).convert_alpha()
         # Создание игрока
         self.player = Player((WIDTH // 2, HEIGHT - 60))
 
@@ -21,7 +22,7 @@ class Main:
 
     def run(self):
         while self.running:
-            self.screen.fill(BLACK)
+            self.screen.blit(self.background, (0, 0))
 
             # Обработка событий
             for event in pygame.event.get():
@@ -33,7 +34,7 @@ class Main:
             self.player.update(keys)
 
             # Рисование игрока
-            pygame.draw.rect(self.screen, BLUE, self.player.rect)
+            self.screen.blit(self.player.image, self.player.rect.topleft)
 
             # Обновление экрана
             pygame.display.flip()
