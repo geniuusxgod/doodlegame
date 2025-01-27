@@ -1,6 +1,6 @@
 from settings import *
 from player import Player
-from platforma import Platform
+from platforma import Platform, MovingPlatformHorizontal, BrokenPlatform
 import sys
 
 pygame.init()
@@ -22,27 +22,63 @@ class Main:
         self.running = True
 
     def create_initial_platforms(self):
-        """
-        Создаёт стартовые платформы.
-        """
-        for i in range(7):  # Количество платформ на экране
+
+        for i in range(7):
             x = random.randint(0, WIDTH - 70)
-            y = HEIGHT - i * 80
-            platform = Platform(x, y, 70, 10)
+            y = HEIGHT - i * 100
+            platform_type = random.choices(
+                [Platform, MovingPlatformHorizontal],
+                weights=[0.8, 0.2],
+                k=1
+            )[0]
+            platform = platform_type(x, y, 70, 10)
             self.platforms.add(platform)
-
-
 
     def generate_new_platforms(self):
+
+        if not self.platforms:
+            y = HEIGHT
+        else:
+            y = min(platform.rect.y for platform in self.platforms) - random.randint(80, 150)
+
         while len(self.platforms) < 7:
-            last_platform_y = min(platform.rect.y for platform in self.platforms)
-            platform = Platform.create_new_platform(
-                last_platform_y,
-                WIDTH,
-                70,  # Ширина платформы
-                10  # Высота платформы
-            )
-            self.platforms.add(platform)
+            x = random.randint(0, WIDTH - 70)
+            platform_type = random.choices(
+                [Platform, MovingPlatformHorizontal, BrokenPlatform],
+                weights=[0.8, 0.1, 0.1],
+                k=1
+            )[0]
+
+            platform = platform_type(x, y, 70, 10)
+
+
+            if not self.check_platform_collision(platform, self.platforms):
+                self.platforms.add(platform)
+
+
+                if isinstance(platform, BrokenPlatform):
+                    for _ in range(5):
+                        additional_x = x + random.choice([-100, 100])
+                        additional_x = max(0, min(WIDTH - 70, additional_x))
+                        additional_y = y - random.randint(50, 70)
+
+                        additional_platform = Platform(additional_x, additional_y, 70, 10)
+
+                        if not self.check_platform_collision(additional_platform, self.platforms):
+                            self.platforms.add(additional_platform)
+                            break
+
+
+    def check_platform_collision(self, new_platform, platforms):
+        for platform in platforms:
+            if new_platform.rect.colliderect(platform.rect):
+                return True
+        return False
+
+    def remove_offscreen_platforms(self):
+        for platform in self.platforms:
+            if platform.rect.top > HEIGHT:
+                self.platforms.remove(platform)
 
     def run(self):
         while self.running:
@@ -55,23 +91,22 @@ class Main:
             keys = pygame.key.get_pressed()
             self.player.update(keys)
 
-            # Проверяем столкновения с платформами
             self.player.check_collision(self.platforms)
 
-            # Перемещаем платформы вниз, если игрок поднимается
+            for platform in self.platforms:
+                platform.update(0)
+
+
             if self.player.rect.top <= HEIGHT // 2:
+                offset = abs(self.player.velocity_y)
                 for platform in self.platforms:
-                    platform.update(abs(self.player.velocity_y))
-                    if platform.rect.top > HEIGHT:
-                        self.platforms.remove(platform)
-                self.player.rect.y += abs(self.player.velocity_y)
+                    platform.rect.y += offset
+                self.player.rect.y += offset
 
-            # Генерируем новые платформы
             self.generate_new_platforms()
+            self.remove_offscreen_platforms()
 
-            # Рисуем платформы и игрока
             self.platforms.draw(self.screen)
-
             self.screen.blit(self.player.image, self.player.rect.topleft)
 
             pygame.display.flip()

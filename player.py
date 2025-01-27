@@ -1,5 +1,5 @@
 import os
-
+from platforma import BrokenPlatform
 from settings import *
 
 class Player(pygame.sprite.Sprite):
@@ -74,20 +74,20 @@ class Player(pygame.sprite.Sprite):
         self.update_images()
 
     def check_collision(self, platforms):
-        """
-        Проверка столкновений с платформами.
-        """
         for platform in platforms:
-            # Проверяем, чтобы игрок касался только верхней части платформы
             if (
-                    self.rect.bottom >= platform.rect.top and  # Нижняя часть игрока касается верхней платформы
-                    self.rect.bottom <= platform.rect.top + 10 and  # Допустимый допуск для столкновения
-                    self.rect.right > platform.rect.left and  # Игрок пересекает платформу по X
+                    self.rect.bottom >= platform.rect.top and
+                    self.rect.bottom <= platform.rect.top + 10 and
+                    self.rect.right > platform.rect.left and
                     self.rect.left < platform.rect.right and
-                    self.velocity_y > 0  # Игрок должен падать вниз
+                    self.velocity_y > 0
             ):
-                self.rect.bottom = platform.rect.top  # Ставим игрока на платформу
-                self.velocity_y = -10  # Задаём импульс вверх
+                if isinstance(platform, BrokenPlatform):
+                    if not platform.broken:
+                        platform.break_platform()
+                    return
+                self.rect.bottom = platform.rect.top
+                self.velocity_y = -10
                 self.jumping = True
                 break
 
