@@ -1,3 +1,4 @@
+
 from settings import *
 from player import Player
 from platforma import Platform, MovingPlatformHorizontal, BrokenPlatform
@@ -18,6 +19,7 @@ class Main:
 
         self.platforms = pygame.sprite.Group()
         self.create_initial_platforms()
+        self.power_ups = pygame.sprite.Group()
 
         self.running = True
 
@@ -49,18 +51,20 @@ class Main:
                 k=1
             )[0]
 
-            platform = platform_type(x, y, 70, 10)
-
+            has_power_up = random.random() < 0.1  # Вероятность появления PowerUp
+            platform = platform_type(x, y, 70, 10, has_power_up)
 
             if not self.check_platform_collision(platform, self.platforms):
                 self.platforms.add(platform)
+                if platform.power_up:
+                    self.power_ups.add(platform.power_up)
 
 
                 if isinstance(platform, BrokenPlatform):
                     for _ in range(5):
                         additional_x = x + random.choice([-100, 100])
                         additional_x = max(0, min(WIDTH - 70, additional_x))
-                        additional_y = y - random.randint(50, 70)
+                        additional_y = y - random.randint(30, 50)
 
                         additional_platform = Platform(additional_x, additional_y, 70, 10)
 
@@ -78,6 +82,8 @@ class Main:
     def remove_offscreen_platforms(self):
         for platform in self.platforms:
             if platform.rect.top > HEIGHT:
+                if platform.power_up:
+                    platform.power_up.kill()
                 self.platforms.remove(platform)
 
     def run(self):
@@ -91,11 +97,10 @@ class Main:
             keys = pygame.key.get_pressed()
             self.player.update(keys)
 
-            self.player.check_collision(self.platforms)
+            self.player.check_platform_collision(self.platforms)
 
             for platform in self.platforms:
                 platform.update(0)
-
 
             if self.player.rect.top <= HEIGHT // 2:
                 offset = abs(self.player.velocity_y)
@@ -103,6 +108,7 @@ class Main:
                     platform.rect.y += offset
                 self.player.rect.y += offset
 
+            self.power_ups.draw(self.screen)
             self.generate_new_platforms()
             self.remove_offscreen_platforms()
 

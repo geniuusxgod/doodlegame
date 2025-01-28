@@ -22,7 +22,7 @@ class Player(pygame.sprite.Sprite):
         self.left_jump_image = pygame.image.load(join('assets', 'player', 'left_jump.png')).convert_alpha()
 
     def update_images(self):
-        if not self.jumping:
+        if self.jumping:
             if self.right:
                 self.image = self.right_image
             elif self.left:
@@ -73,21 +73,37 @@ class Player(pygame.sprite.Sprite):
         self.check_bounds()
         self.update_images()
 
-    def check_collision(self, platforms):
+    def check_platform_collision(self, platforms):
         for platform in platforms:
             if (
-                    self.rect.bottom >= platform.rect.top and
-                    self.rect.bottom <= platform.rect.top + 10 and
-                    self.rect.right > platform.rect.left and
-                    self.rect.left < platform.rect.right and
-                    self.velocity_y > 0
+                self.rect.bottom >= platform.rect.top and
+                self.rect.bottom <= platform.rect.top + 10 and
+                self.rect.right > platform.rect.left and
+                self.rect.left < platform.rect.right and
+                self.velocity_y > 0
             ):
                 if isinstance(platform, BrokenPlatform):
                     if not platform.broken:
                         platform.break_platform()
                     return
+
                 self.rect.bottom = platform.rect.top
                 self.velocity_y = -10
                 self.jumping = True
+
+                # Проверка на PowerUp
+                if platform.power_up:
+                    self.apply_power_ups(platform.power_up.power_up_type)
+                    platform.power_up.kill()
+                    platform.power_up = None
                 break
+
+    def apply_power_ups(self, power_up_type):
+        if power_up_type == "jetpack":
+            self.velocity_y = -65
+        elif power_up_type == "spring":
+            self.velocity_y = -30
+        elif power_up_type == "trampoline":
+            self.velocity_y = -45
+
 
