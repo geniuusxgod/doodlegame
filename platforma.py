@@ -16,7 +16,6 @@ class Platform(pygame.sprite.Sprite):
         self.image = self.default_platform_image
         self.rect = self.image.get_rect(topleft=(x, y))
         self.power_up = None
-
         if has_power_up:
             self.create_power_up()
 
@@ -47,6 +46,9 @@ class MovingPlatformHorizontal(Platform):
         self.rect.x += self.direction * self.speed
         if self.rect.right >= WIDTH or self.rect.left <= 0:
             self.direction *= -1
+
+    def create_power_up(self):
+        pass
 
 
 class BrokenPlatform(Platform):
@@ -88,3 +90,7 @@ class BrokenPlatform(Platform):
                 self.rect.y += self.speed_fall
                 if self.rect.top >= HEIGHT:
                     self.kill()
+
+
+    def create_power_up(self):
+        pass

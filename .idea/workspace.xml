@@ -4,9 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="350e4d91-55e5-440f-b0c5-f3cdb26f0618" name="Changes" comment="bug fixed with platforms, add new type of platforms">
+    <list default="true" id="350e4d91-55e5-440f-b0c5-f3cdb26f0618" name="Changes" comment="added power_ups">
+      <change afterPath="$PROJECT_DIR$/assets/player/bullet.png" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/assets/power_ups/jetpack.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/power_up.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/groups.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/monster.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/platforma.py" beforeDir="false" afterPath="$PROJECT_DIR$/platforma.py" afterDir="false" />
@@ -58,7 +60,7 @@
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
     &quot;git-widget-placeholder&quot;: &quot;master&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/pavel/PycharmProjects/DoodleJump-master&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/pavel/PycharmProjects/PythonProject/assets/player&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
@@ -69,6 +71,7 @@
 }</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\pavel\PycharmProjects\PythonProject\assets\player" />
       <recent name="C:\Users\pavel\PycharmProjects\PythonProject\assets\power_ups" />
       <recent name="C:\Users\pavel\PycharmProjects\PythonProject\assets\platforms" />
     </key>
@@ -101,7 +104,10 @@
       <workItem from="1737818842476" duration="9964000" />
       <workItem from="1737907297311" duration="4668000" />
       <workItem from="1737987466104" duration="8737000" />
-      <workItem from="1738074746376" duration="3628000" />
+      <workItem from="1738074746376" duration="4379000" />
+      <workItem from="1738158370423" duration="2102000" />
+      <workItem from="1738188658013" duration="505000" />
+      <workItem from="1738248652385" duration="6469000" />
     </task>
     <task id="LOCAL-00001" summary="creating project">
       <option name="closed" value="true" />
@@ -143,7 +149,15 @@
       <option name="project" value="LOCAL" />
       <updated>1737989003111</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="added power_ups">
+      <option name="closed" value="true" />
+      <created>1738083322844</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1738083322844</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -166,12 +180,13 @@
     <MESSAGE value="assets, player images, background images, update_images functions" />
     <MESSAGE value="added platfroms" />
     <MESSAGE value="bug fixed with platforms, add new type of platforms" />
-    <option name="LAST_COMMIT_MESSAGE" value="bug fixed with platforms, add new type of platforms" />
+    <MESSAGE value="added power_ups" />
+    <option name="LAST_COMMIT_MESSAGE" value="added power_ups" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/PythonProject$power_up.coverage" NAME="power_up Coverage Results" MODIFIED="1737994243370" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/PythonProject$platforma.coverage" NAME="platforma Coverage Results" MODIFIED="1738082366379" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/PythonProject$player.coverage" NAME="player Coverage Results" MODIFIED="1737734191583" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/PythonProject$main.coverage" NAME="main Coverage Results" MODIFIED="1738083052317" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/PythonProject$platforma.coverage" NAME="platforma Coverage Results" MODIFIED="1738251159731" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/PythonProject$player.coverage" NAME="player Coverage Results" MODIFIED="1738253202914" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/PythonProject$main.coverage" NAME="main Coverage Results" MODIFIED="1738254973001" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
 </project>
