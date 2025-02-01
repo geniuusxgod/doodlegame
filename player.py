@@ -6,24 +6,33 @@ from platforma import BrokenPlatform
 from groups import AllSprites
 from settings import *
 
+
 class Player(pygame.sprite.Sprite):
+    high_score = 0
     def __init__(self, position, all_sprites, bullets):
         super().__init__()
+        self.death_y = None
         self.speed = 5
         self.velocity_y = 0
         self.gravity = 0.2
 
         self.direction = pygame.Vector2(0, 0)
         self.rect = pygame.Rect(position[0], position[1], 50, 50)
+        self.y = position[1]
 
+        self.stars = False
         self.jumping = False
         self.left = False
         self.right = True
         self.shooting = False
+        self.dead = False
+        self.using_power_up = False
         self.shooting_timer = 0
 
         self.all_sprites = all_sprites
         self.bullets = bullets
+
+        self.score = 0
 
         self.right_image = pygame.image.load(join('assets', 'player', 'right.png')).convert_alpha()
         self.left_image = pygame.image.load(join('assets', 'player', 'left.png')).convert_alpha()
@@ -35,8 +44,19 @@ class Player(pygame.sprite.Sprite):
         self.image = self.right_image
 
 
+        self.jump_sound = pygame.mixer.Sound(join('assets', 'sounds', 'jump.wav'))
+        self.break_platform_sound = pygame.mixer.Sound(join('assets', 'sounds', 'break.wav'))
+        self.jetpack_sound = pygame.mixer.Sound(join('assets', 'sounds', 'jetpack.wav'))
+        self.shoot_sound = pygame.mixer.Sound(join('assets', 'sounds', 'shoot_1.wav'))
+        self.spring_sound = pygame.mixer.Sound(join('assets', 'sounds', 'spring.wav'))
+        self.trampoline_sound = pygame.mixer.Sound(join('assets', 'sounds', 'trampoline.wav'))
+
+
+
+
+
     def update_images(self):
-        if self.shooting:  # Приоритет выстрела
+        if self.shooting:
             if self.jumping:
                 self.image = self.shooting_jump_image
             else:
@@ -54,27 +74,21 @@ class Player(pygame.sprite.Sprite):
 
 
     def move(self, keys):
-        self.direction.x = int(keys[pygame.K_RIGHT]) - int(keys[pygame.K_LEFT])
-        self.rect.x += self.direction.x * self.speed
+        if not self.dead:
+            self.direction.x = int(keys[pygame.K_RIGHT]) - int(keys[pygame.K_LEFT])
+            self.rect.x += self.direction.x * self.speed
 
-        if self.direction.x > 0:
-            self.right = True
-            self.left = False
-        elif self.direction.x < 0:
-            self.right = False
-            self.left = True
+            if self.direction.x > 0:
+                self.right = True
+                self.left = False
+            elif self.direction.x < 0:
+                self.right = False
+                self.left = True
 
     def apply_gravity(self):
-        self.velocity_y += self.gravity
-        self.rect.y += self.velocity_y
-
-        if self.rect.bottom >= HEIGHT:
-            self.rect.bottom = HEIGHT
-            self.velocity_y = -10
-            self.jumping = True
-
-        else:
-            self.jumping = True
+        if not self.dead:
+            self.velocity_y += self.gravity
+            self.rect.y += self.velocity_y
 
 
     def reset_position(self):
@@ -89,7 +103,7 @@ class Player(pygame.sprite.Sprite):
             self.rect.x = -self.rect.width
 
     def shoot(self, events):
-        if not self.using_power_up:
+        if not self.dead:
             for event in events:
                 if event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE:
                     self._fire_bullet()
@@ -97,65 +111,81 @@ class Player(pygame.sprite.Sprite):
                     self._fire_bullet()
 
     def _fire_bullet(self):
-        """Создаёт пулю и меняет картинку стрельбы"""
         self.shooting = True
         self.right = False
         self.left = False
-        self.shooting_timer = pygame.time.get_ticks()  # Запоминаем время выстрела
+        self.shooting_timer = pygame.time.get_ticks()
+        self.shoot_sound.play()
 
-        bullet = Bullet(self.rect.centerx, self.rect.top)  # Создаём пулю
+        bullet = Bullet(self.rect.centerx, self.rect.top)
         self.all_sprites.add(bullet)
         self.bullets.add(bullet)
 
-
-    def death(self):
-        pass
-
-    def update(self, keys, events):
-        """Обновляет состояние игрока"""
+    def update(self, keys, events, platforms, monsters):
         self.move(keys)
         self.apply_gravity()
         self.check_bounds()
         self.shoot(events)
-
-        # Сбрасываем режим стрельбы через 200 мс
+        self.check_collision_monster(monsters)
+        self.check_platform_collision(platforms)
+        self.update_images()
+        self.update_score()
         if self.shooting and pygame.time.get_ticks() - self.shooting_timer > 200:
             self.shooting = False
-
-        self.update_images()
+        if self.rect.top > HEIGHT:
+            self.dead = True
 
     def check_platform_collision(self, platforms):
-        for platform in platforms:
-            if (
-                self.rect.bottom >= platform.rect.top and
-                self.rect.bottom <= platform.rect.top + 10 and
-                self.rect.right > platform.rect.left and
-                self.rect.left < platform.rect.right and
-                self.velocity_y > 0
-            ):
-                if isinstance(platform, BrokenPlatform):
-                    if not platform.broken:
-                        platform.break_platform()
-                    return
+        if not self.dead:
+            for platform in platforms:
+                if (
+                    self.rect.bottom >= platform.rect.top and
+                    self.rect.bottom <= platform.rect.top + 10 and
+                    self.rect.right > platform.rect.left and
+                    self.rect.left < platform.rect.right and
+                    self.velocity_y > 0
+                ):
+                    if isinstance(platform, BrokenPlatform):
+                        if not platform.broken:
+                            platform.break_platform()
+                            self.break_platform_sound.play()
+                        return
 
-                self.rect.bottom = platform.rect.top
-                self.velocity_y = -10
-                self.jumping = True
+                    self.rect.bottom = platform.rect.top
+                    self.velocity_y = -10
+                    self.jumping = True
+                    self.jump_sound.play()
 
-                # Проверка на PowerUp
-                if platform.power_up:
-                    self.apply_power_ups(platform.power_up.power_up_type)
-                    platform.power_up.kill()
-                    platform.power_up = None
-                break
+                    self.using_power_up = False
+
+                    # Проверка на PowerUp
+                    if platform.power_up:
+                        self.apply_power_ups(platform.power_up.power_up_type)
+                        platform.power_up.kill()
+                        platform.power_up = None
+                    break
+
+    def check_collision_monster(self, monsters):
+        if not self.using_power_up:
+            for monster in monsters:
+                if monster.rect.colliderect(self.rect):
+                    self.dead = True
 
     def apply_power_ups(self, power_up_type):
+        self.using_power_up = True
         if power_up_type == "jetpack":
             self.velocity_y = -65
+            self.jetpack_sound.play()
         elif power_up_type == "spring":
             self.velocity_y = -30
+            self.spring_sound.play()
         elif power_up_type == "trampoline":
             self.velocity_y = -45
+            self.trampoline_sound.play()
+
+    def update_score(self):
+        self.score = max(self.score, abs(self.rect.top - HEIGHT))
+        Player.high_score = max(Player.high_score, self.score)
 
 
 class Bullet(pygame.sprite.Sprite):
@@ -166,7 +196,6 @@ class Bullet(pygame.sprite.Sprite):
         self.rect.center = (x, y)
 
     def update(self):
-        """Двигает пулю вверх"""
         self.rect.y -= 15
 
         all_sprites_group = self.groups()[0]
@@ -175,6 +204,5 @@ class Bullet(pygame.sprite.Sprite):
         else:
             offset_y = 0
 
-        # Учитываем оффсет при удалении пули
         if self.rect.bottom + offset_y < 0:
             self.kill()

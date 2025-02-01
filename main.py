@@ -1,9 +1,14 @@
 
 from settings import *
 from player import Player
+from monster import Monster
 from platforma import Platform, MovingPlatformHorizontal, BrokenPlatform
 from groups import AllSprites
+from playagain_menu import PlayAgainMenu
+from main_menu import MainMenu
 import sys
+
+
 
 pygame.init()
 
@@ -15,9 +20,12 @@ class Main:
         self.clock = pygame.time.Clock()
 
         self.background = pygame.image.load(join("assets", "background", "bg.png")).convert_alpha()
+        self.font = pygame.font.Font(join('assets', 'font', 'DoodleJump.ttf'), 30)
 
         self.all_sprites = AllSprites()
         self.bullets = pygame.sprite.Group()
+        self.platform_count = 0
+        self.monsters = pygame.sprite.Group()
 
         self.player = Player((WIDTH // 2, HEIGHT - 60), self.all_sprites, self.bullets)
         self.all_sprites.add(self.player)
@@ -28,16 +36,21 @@ class Main:
 
         self.running = True
 
+
     def create_initial_platforms(self):
-        for i in range(7):
+        first_platform = Platform(WIDTH // 2, HEIGHT, 70, 10, False)
+        self.platforms.add(first_platform)
+        self.all_sprites.add(first_platform)
+        for i in range(6):
             x = random.randint(0, WIDTH - 70)
-            y = HEIGHT - i * 100
+            y = HEIGHT - (i+1) * 100
             platform_type = random.choices(
                 [Platform, MovingPlatformHorizontal],
                 weights=[0.8, 0.2],
                 k=1
             )[0]
             platform = platform_type(x, y, 70, 10, False)
+            self.platform_count += 1
             self.platforms.add(platform)
             self.all_sprites.add(platform)
 
@@ -57,6 +70,12 @@ class Main:
 
             has_power_up = random.random() < 0.1
             platform = platform_type(x, y, 70, 10, has_power_up)
+            self.platform_count += 1
+
+            if self.platform_count % 50 == 0:
+                monster = Monster(platform.rect.top - 50)
+                self.monsters.add(monster)
+                self.all_sprites.add(monster)
 
             if not self.check_platform_collision(platform, self.platforms):
                 self.platforms.add(platform)
@@ -72,11 +91,13 @@ class Main:
                         additional_y = y - random.randint(30, 50)
 
                         additional_platform = Platform(additional_x, additional_y, 70, 10)
+                        self.platform_count += 1
 
                         if not self.check_platform_collision(additional_platform, self.platforms):
                             self.platforms.add(additional_platform)
                             self.all_sprites.add(additional_platform)
                             break
+
 
 
     def check_platform_collision(self, new_platform, platforms):
@@ -96,6 +117,39 @@ class Main:
                     self.all_sprites.remove(platform.power_up)
                     self.power_ups.remove(platform.power_up)
 
+    def remove_offscreen_monsters(self):
+        for monster in self.monsters:
+            if monster.rect.top - 100 + self.all_sprites.offset.y > HEIGHT:
+                monster.kill()
+                self.all_sprites.remove(monster)
+                self.monsters.remove(monster)
+
+    def show_play_again_menu(self):
+        play_again_menu = PlayAgainMenu(self.screen)
+        choice = None
+
+        while choice is None:
+            play_again_menu.draw(self.player.score, Player.high_score)
+            choice = play_again_menu.handle_events()
+
+        if choice == "restart":
+            self.__init__()
+            self.run()
+        elif choice == "menu":
+            main_menu = MainMenu(self.screen)
+            choice = main_menu.run()
+
+            if choice == "play":
+                self.__init__()
+                self.run()
+            else:
+                pygame.quit()
+                sys.exit()
+
+    def draw_score(self, screen, score):
+        text = self.font.render(f'Score: {score}', True, (255, 0, 0))
+        screen.blit(text, (10, 10))
+
 
     def run(self):
         while self.running:
@@ -106,20 +160,25 @@ class Main:
                 if event.type == pygame.QUIT:
                     self.running = False
             keys = pygame.key.get_pressed()
-            self.player.update(keys, events)
+            self.player.update(keys, events, self.platforms, self.monsters)
             self.bullets.update()
-            self.player.check_platform_collision(self.platforms)
+            self.monsters.update(self.bullets)
 
             for platform in self.platforms:
-                platform.update(0)
+                platform.update()
 
             if self.player.rect.top <= HEIGHT // 2:
                 self.all_sprites.offset.y = -(self.player.rect.top - HEIGHT // 2)
 
+            if self.player.dead:
+                self.show_play_again_menu()
+
             self.generate_new_platforms()
             self.remove_offscreen_platforms()
+            self.remove_offscreen_monsters()
 
             self.all_sprites.draw(self.player.rect.center)
+            self.draw_score(self.screen, self.player.score)
 
             pygame.display.flip()
             self.clock.tick(FPS)
@@ -129,5 +188,15 @@ class Main:
 
 
 if __name__ == "__main__":
-    game = Main()
-    game.run()
+    pygame.init()
+    screen = pygame.display.set_mode((WIDTH, HEIGHT))
+
+    menu = MainMenu(screen)
+    choice = menu.run()
+
+    if choice == "play":
+        game = Main()
+        game.run()
+    else:
+        pygame.quit()
+        sys.exit()

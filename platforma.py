@@ -19,17 +19,13 @@ class Platform(pygame.sprite.Sprite):
         if has_power_up:
             self.create_power_up()
 
-    def update(self, velocity_y):
-        self.rect.y += velocity_y
-
-        if self.power_up:
-            self.power_up.rect.centerx = self.rect.centerx
-            self.power_up.rect.bottom = self.rect.top + 5
+    def update(self):
+        pass
 
     def create_power_up(self):
         power_up_type = random.choice(["jetpack", "spring", "trampoline"])
         power_up_x = self.rect.centerx
-        power_up_y = self.rect.top + 6
+        power_up_y = self.rect.top + 5
         self.power_up = PowerUp(power_up_x, power_up_y, power_up_type)
 
 class MovingPlatformHorizontal(Platform):
@@ -42,7 +38,7 @@ class MovingPlatformHorizontal(Platform):
         if has_power_up:
             self.create_power_up()
 
-    def update(self, velocity_y=0):
+    def update(self):
         self.rect.x += self.direction * self.speed
         if self.rect.right >= WIDTH or self.rect.left <= 0:
             self.direction *= -1
@@ -73,9 +69,9 @@ class BrokenPlatform(Platform):
     def break_platform(self):
         self.broken = True
 
-    def update(self, velocity_y=0):
+    def update(self):
         if not self.broken:
-            super().update(velocity_y)
+            super().update()
         else:
             self.animate_destruction()
 
