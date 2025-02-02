@@ -8,58 +8,68 @@ Tento repozitar obsahuje hru, ktorú som vytvoril pre tento projekt, je to proto
 
 ---
 ## **1. Úvod**
-V tejto hre musíme donekonečna stúpať hore, to je cieľom hry, hráč stúpa hore, aby získal čo najväčší počet bodov, cestou ho čakajú plošiny, ktoré sa môžu pohybovať aj rúcať, čakajú ho príšery, s ktorými musí bojovať. Hra je robená v koncepte témy, vždy máme jednu úroveň, ale tá sa neustále mení.
+V tejto hre musíme donekonečna stúpať hore, to je cieľom hry, hráč stúpa hore, aby získal čo najväčší počet bodov, cestou ho čakajú platformy, ktoré sa môžu pohybovať aj rúcať, čakajú ho príšery, s ktorými musí bojovať. Hra je robená v koncepte témy, vždy máme jednu úroveň, ale tá sa neustále mení.
 
 ### **1.1 Inšpirácia**
 <ins>**DoodleJump**</ins>
 
-Doodlejump je hra na telefóny, v ktorej hráč musí donekonečna liezť po plošinách, pričom hra má vždy ***jednu úroveň, ktorá sa neustále mení***. Táto hra ma úplne inšpirovala, prevzal som nápad a rozhodol som sa vytvoriť počítačovú verziu tejto hry s niekoľkými menšími zmenami.
+Doodlejump je hra na telefóny, v ktorej hráč musí donekonečna liezť po platformach, pričom hra má vždy ***jednu úroveň, ktorá sa neustále mení***. Táto hra ma úplne inšpirovala, prevzal som nápad a rozhodol som sa vytvoriť počítačovú verziu tejto hry s niekoľkými menšími zmenami.
 
 <p align="center">
-  <img src="https://github.com/l-benko/OT_Game_2024/blob/master/Doodle-Jump.jpg" alt="DoodleJump">
+  <img src="https://github.com/geniuusxgod/doodlegame/blob/master/Doodle-Jump.jpg" alt="DoodleJump">
   <br>
   <em>Obrázok 1 Ukážka hry DoodleJump</em>
 </p>
 
 ### **1.2 Herný zážitok**
-Cieľom hry je, aby hráč prežil ***určitý časový interval v hre***, pričom sa nenechá poraziť veľkým množstvom nepriateľov, ktorí sa na neho rútia a pri kontakte mu spôsobujú zranenia. Hráč sa môže pohybovať po mape a zároveň môže likvidovať nepriateľov, čím zvyšuje svoje šance úspešného prežitia časového intervalu.
+Cieľom hry je dostať sa čo najvyššie, skákať po platformach, zjednocovať príšery a nespadnúť, pričom zjednotenie príšery možno vykonať pomocou posilňovača alebo zabitím príšery.
 
 ### **1.3 Vývojový softvér**
 - **Pygame-CE**: zvolený programovací jazyk.
 - **PyCharm 2024.1**: vybrané IDE.
-- **Tiled 1.10.2**: grafický nástroj na vytváranie levelov.
-- **Itch.io**: zdroj grafických assetov a zvukov do hry.
 
 ---
 ## **2. Koncept**
 
 ### **2.1 Prehľad hry**
-Hráč ovláda svoju postavu a snaží sa prežiť v hre stanovený ***časový interval*** (napr. 90 sekúnd). Počas tohto času ***na neho útočia*** nepriatelia, ktorí sa v pravidelných intervaloch spawnujú na mape. Hráč má možnosť nájsť a využiť na mape objekty, ktoré mu pomôžu získať bezpečie a nebyť vystavený útokom zo všetkých strán.
+Hráč sa ovláda pomocou klávesnice. Skáče donekonečna, odstrkuje sa z platform, na platformach sú boostery, ktoré mu pomáhajú dostať sa rýchlejšie vyššie, a mince, za ktoré si neskôr môžete v obchodoch kúpiť štít, ktorý zachraňuje pred príšerami.
 
 ### **2.2 Interpretácia témy (Swarms - príklad témy)**
-**"Swarms"** - hráč je prenasledovaný veľkým množstvom nepriateľov, ktorých môže zabíjať, avšak sú opätovne generovaný do sveta. Nepriatelia majú nastavený pohyb vždy smerom k hráčovi a tak sa ho snažia premôcť obrovským množstvom. Vo vyšších leveloch je možné zvýšiť intenzitu generovania nepriateľov a zvyšovanie ich odolnosti voči hráčovým útokom.
+**One level, but constantly changing** - hra má len jednu úroveň, ktorá sa neustále mení, čo sa realizuje náhodným objavovaním platforiem, náhodným generovaním boostrov, mincí a príšer. To je celá pointa, že úroveň sa mení v priebehu jej prechádzania.
 
 ### **2.3 Základné mechaniky**
-- **Prekážky**: na mape sa nachádzajú objekty, ktoré tvoria aktívnu prekážku ako pre hráča, ak aj pre nepriateľov.
-- **Bonusové predmety**: hráč môže na mape zbierať predmety, ktoré mu pridajú napr. život, silu útokom alebo znížia čas do konca kola.
-- **Pevne stanovené miesta generovania nepriateľov**: nepriatelia sa negenerujú hocikde na mape, ale majú na to pevne stanovené miesta, aby nenastala situácia, že sa nepriateľ spawne doslova na hráčovi, čím sa zníži hrateľnost.
-- **Hráč môže likvidovať nepriateľov**: hráč vystreľuje ohnivú gulu, ktorá pri náraze do nepriateľa spôsobuje jeho zranenie.
+- **Platformy** - na mape sa nachádzajú platformy, ktoré pomáhajú hráčovi pohybovať sa nahor. Generujú sa náhodne a existujú tri typy platforiem (statické, pohyblivé a rozbíjajúce sa).
+- **Bonusové predmety**: hráč môže na mape zbierať predmety, ktoré mu pridajú *rychlost*. Sú tri typy: *jetpack, trampolína a pružina*.
+- **Mince** - za mince v obchode si môžete kúpiť užitočné predmety.
+- **Hráč môže likvidovať nepriateľov**: hráč strieľa guľky, keď guľka zasiahne príšeru, tá zomrie.
 
 ### **2.4 Návrh tried**
 - **Game**: trieda, v ktorej sa bude nachádzať hlavná herná logika (úvodná obrazovka, herná slučka, vyhodnotenie hry, ...).
 - **Player**: trieda reprezentujúca hráča, ovládanie hráča, vykreslenie postavy a schopnosti.
-- **Enemies**: trieda nepriateľov, ich herná logika a pohyb smerom k hráčovi, vykreslenie postáv a schopnosti.
+- **Monsters**: trieda nepriateľov, ich herná logika a pohyb smerom k hráčovi, vykreslenie postáv a schopnosti.
+- **Power_ups**: trieda boosterov, ich vykreslenie a schopnosti.
+- **Coins**: trieda coinov, ich vyskreslenie.
+- **Main_menu**: trieda, ktorá popisuje prechody do hry alebo do obchodu.
+- **Shop**: trieda, v ktorej si môžete kúpiť boostery.
+- **Play_again_menu**: trieda, v ktorej môžeme po strate postavy začať hru znova.
+- **Platforms**: trieda, ktorá popisuje logiku pohybu platforiem a ich kreslenie.
 
 ---
 ## **3. Grafika**
 
 ### **3.1 Interpretácia témy (Swarms - príklad témy)**
-Hra chce byť vizuálne príťažlivá, kde pomocou assetov z itch.io boli vybrané assety hráča a následne nepriateľov, pričom nepriatelia tým, že budú na hráča útočiť vo veľkom množstve, tak boli vybrané assety rytierov a potom príšer (slime). Zameranie je na 2D kreslené objekty, ktoré budú mať minimalistické animácie pohybu.
+Hra je veľmi minimalistická, assety použité ako v pôvodnej hre, že monštrá, že hráč a platformy, pridané nové objekty(mince) ktoré nie sú v pôvodnej, ich sprites boli prevzaté z itch.io. Vykonané v 2D. 
 
 <p align="center">
-  <img src="https://github.com/l-benko/OT_Game_2024/blob/main/enemies.png" alt="Nepriatelia">
+  <img src="https://github.com/geniuusxgod/doodlegame/blob/master/assets/player/right.png" alt="Player">
   <br>
-  <em>Obrázok 3 Ukážka sprite-ov nepriateľov</em>
+  <em>Obrázok 2 Ukážka sprite-ov hraca</em>
+</p>
+
+<p align="center">
+  <img src="https://github.com/geniuusxgod/doodlegame/blob/master/monster.png" alt="Monster">
+  <br>
+  <em>Obrázok 2 Ukážka sprite-ov monstrov</em>
 </p>
 
 ### **3.2 Dizajn**
