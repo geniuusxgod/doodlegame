@@ -1,3 +1,4 @@
+from coin import Coin
 from power_up import PowerUp
 from settings import *
 
@@ -10,14 +11,17 @@ class Platform(pygame.sprite.Sprite):
     broken_platform_image2 = platform_sheet.subsurface(pygame.Rect(0, 90, 62, 20))
     broken_platform_image3 = platform_sheet.subsurface(pygame.Rect(0, 116, 62, 27))
     broken_platform_image4 = platform_sheet.subsurface(pygame.Rect(0, 148, 62, 32))
-    def __init__(self, x, y, width, height, has_power_up=False):
+    def __init__(self, x, y, width, height, has_power_up=False, has_coin=False):
         super().__init__()
         self.image = pygame.Surface((width, height))
         self.image = self.default_platform_image
         self.rect = self.image.get_rect(topleft=(x, y))
         self.power_up = None
+        self.coins = None
         if has_power_up:
             self.create_power_up()
+        if has_coin:
+            self.create_coin()
 
     def update(self):
         pass
@@ -28,12 +32,20 @@ class Platform(pygame.sprite.Sprite):
         power_up_y = self.rect.top + 5
         self.power_up = PowerUp(power_up_x, power_up_y, power_up_type)
 
+    def create_coin(self):
+        x = self.rect.centerx
+        y = self.rect.top - 2
+        self.coins = Coin(x, y)
+
 class MovingPlatformHorizontal(Platform):
-    def __init__(self, x, y, width, height, has_power_up=False):
+    def __init__(self, x, y, width, height, has_power_up=False, has_coin=False):
         super().__init__(x, y, width, height)
         self.direction = 1
         self.image = self.moving_hor_platform_image
         self.speed = 2
+
+        if has_coin:
+            self.create_coin()
 
         if has_power_up:
             self.create_power_up()
@@ -46,9 +58,12 @@ class MovingPlatformHorizontal(Platform):
     def create_power_up(self):
         pass
 
+    def create_coin(self):
+        pass
+
 
 class BrokenPlatform(Platform):
-    def __init__(self, x, y, width, height, has_power_up=False):
+    def __init__(self, x, y, width, height, has_power_up=False, has_coin=False):
         super().__init__(x, y, width, height)
         self.image = self.broken_platform_image1
         self.broken = False
@@ -65,6 +80,9 @@ class BrokenPlatform(Platform):
 
         if has_power_up:
             self.create_power_up()
+
+        if has_coin:
+            self.create_coin()
 
     def break_platform(self):
         self.broken = True

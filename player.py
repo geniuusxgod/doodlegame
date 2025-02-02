@@ -2,6 +2,7 @@ import os
 
 import pygame.image
 
+from coin import Coin
 from platforma import BrokenPlatform
 from groups import AllSprites
 from settings import *
@@ -9,6 +10,7 @@ from settings import *
 
 class Player(pygame.sprite.Sprite):
     high_score = 0
+    shield = 1
     def __init__(self, position, all_sprites, bullets):
         super().__init__()
         self.death_y = None
@@ -20,6 +22,8 @@ class Player(pygame.sprite.Sprite):
         self.rect = pygame.Rect(position[0], position[1], 50, 50)
         self.y = position[1]
 
+        self.shield = False
+        self.shield_timer = 0
         self.stars = False
         self.jumping = False
         self.left = False
@@ -51,7 +55,8 @@ class Player(pygame.sprite.Sprite):
         self.spring_sound = pygame.mixer.Sound(join('assets', 'sounds', 'spring.wav'))
         self.trampoline_sound = pygame.mixer.Sound(join('assets', 'sounds', 'trampoline.wav'))
 
-
+        self.shield_right_img = pygame.image.load(join('assets', 'player', 'shield_right.png')).convert_alpha()
+        self.shield_left_img = pygame.image.load(join('assets', 'player', 'shield_left.png')).convert_alpha()
 
 
 
@@ -61,6 +66,11 @@ class Player(pygame.sprite.Sprite):
                 self.image = self.shooting_jump_image
             else:
                 self.image = self.shooting_image
+        elif self.shield:
+            if self.right:
+                self.image = self.shield_right_img
+            else:
+                self.image = self.shield_left_img
         elif self.jumping:
             if self.right:
                 self.image = self.right_jump_image
@@ -121,19 +131,26 @@ class Player(pygame.sprite.Sprite):
         self.all_sprites.add(bullet)
         self.bullets.add(bullet)
 
-    def update(self, keys, events, platforms, monsters):
+    def update(self, keys, events, platforms, monsters, coins):
         self.move(keys)
         self.apply_gravity()
         self.check_bounds()
         self.shoot(events)
         self.check_collision_monster(monsters)
         self.check_platform_collision(platforms)
+        self.check_collision_coin(coins)
         self.update_images()
         self.update_score()
         if self.shooting and pygame.time.get_ticks() - self.shooting_timer > 200:
             self.shooting = False
-        if self.rect.top > HEIGHT:
-            self.dead = True
+        if platforms:
+            lowest_platform = max(platforms, key=lambda p: p.rect.top)
+            if self.rect.top > lowest_platform.rect.top + 50:  # +50 небольшой запас
+                self.dead = True
+        if self.shield and pygame.time.get_ticks() - self.shield_timer > 5000:
+            self.deactivate_shield()
+        if keys[pygame.K_z]:
+            self.activate_shield()
 
     def check_platform_collision(self, platforms):
         if not self.dead:
@@ -169,7 +186,19 @@ class Player(pygame.sprite.Sprite):
         if not self.using_power_up:
             for monster in monsters:
                 if monster.rect.colliderect(self.rect):
-                    self.dead = True
+                    if self.shield:
+                        self.deactivate_shield()
+                        monster.kill()
+                    else:
+                        self.dead = True
+
+    def check_collision_coin(self, coins):
+        if not self.using_power_up:
+            for coin in coins:
+                if coin.rect.colliderect(self.rect):
+                    coin.kill()
+                    coins.remove(coin)
+                    Coin.coin_count += 1
 
     def apply_power_ups(self, power_up_type):
         self.using_power_up = True
@@ -182,6 +211,15 @@ class Player(pygame.sprite.Sprite):
         elif power_up_type == "trampoline":
             self.velocity_y = -45
             self.trampoline_sound.play()
+
+    def activate_shield(self):
+        if Player.shield > 0:
+            Player.shield -= 1
+            self.shield = True
+            self.shield_timer = pygame.time.get_ticks()
+
+    def deactivate_shield(self):
+        self.shield = False
 
     def update_score(self):
         self.score = max(self.score, abs(self.rect.top - HEIGHT))

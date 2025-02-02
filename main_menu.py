@@ -8,11 +8,11 @@ class MainMenu:
         self.font_exit = pygame.font.Font(join('assets', 'font', 'DoodleJump.ttf'), 70)
         self.bg = pygame.image.load(join('assets', 'background', 'bg.png')).convert_alpha()
 
-        self.play_buttons = pygame.Rect(WIDTH // 2 - 100, HEIGHT // 2 - 50, 150, 50)
+        self.play_buttons = pygame.Rect(WIDTH // 2 - 100, HEIGHT // 2 - 50, 220, 75)
         self.play_button = pygame.image.load(join('assets', 'buttons', 'play.png')).convert_alpha()
         self.play_button_hover = pygame.image.load(join('assets', 'buttons', 'play_hover.png')).convert_alpha()
-
-        self.exit_buttons = pygame.Rect(WIDTH // 2 - 75, HEIGHT // 2 + 20, 150, 50)
+        self.shop_buttons = pygame.Rect(WIDTH // 2 - 100, HEIGHT // 2 + 30, 220, 75)
+        self.exit_buttons = pygame.Rect(WIDTH // 2 - 100, HEIGHT // 2 + 100, 220, 75)
 
     def draw(self):
         self.screen.blit(self.bg, (0, 0))
@@ -24,10 +24,14 @@ class MainMenu:
         play_button_img = self.play_button_hover if self.play_buttons.collidepoint(mouse_pos) else self.play_button
         self.screen.blit(play_button_img, self.play_buttons.topleft)
 
+        shop_text = self.font_exit.render("shop", True, (0, 0, 0))
         exit_text = self.font_exit.render("exit", True, (0, 0, 0))
-        self.exit_rect = exit_text.get_rect(center=(WIDTH // 2, HEIGHT // 2 + 40))
 
-        self.screen.blit(exit_text, (self.exit_buttons.x + 40, self.exit_buttons.y + 10))
+        shop_text_rect = shop_text.get_rect(center=self.shop_buttons.center)
+        exit_text_rect = exit_text.get_rect(center=self.exit_buttons.center)
+
+        self.screen.blit(shop_text, shop_text_rect.topleft)
+        self.screen.blit(exit_text, exit_text_rect.topleft)
 
         pygame.display.flip()
 
@@ -38,7 +42,9 @@ class MainMenu:
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if self.play_buttons.collidepoint(event.pos):
                     return "play"
-                if self.exit_rect.collidepoint(event.pos):
+                if self.shop_buttons.collidepoint(event.pos):
+                    return "shop"
+                if self.exit_buttons.collidepoint(event.pos):
                     return "exit"
         return None
 

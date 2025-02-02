@@ -1,4 +1,4 @@
-
+from coin import Coin
 from settings import *
 from player import Player
 from monster import Monster
@@ -8,7 +8,7 @@ from playagain_menu import PlayAgainMenu
 from main_menu import MainMenu
 import sys
 
-
+from shop import Shop
 
 pygame.init()
 
@@ -33,6 +33,9 @@ class Main:
         self.platforms = pygame.sprite.Group()
         self.create_initial_platforms()
         self.power_ups = pygame.sprite.Group()
+        self.coins = pygame.sprite.Group()
+
+        self.shop = Shop(self.screen)
 
         self.running = True
 
@@ -69,7 +72,8 @@ class Main:
             )[0]
 
             has_power_up = random.random() < 0.1
-            platform = platform_type(x, y, 70, 10, has_power_up)
+            has_coin = random.random() < 0.3
+            platform = platform_type(x, y, 70, 10, has_power_up, has_coin)
             self.platform_count += 1
 
             if self.platform_count % 50 == 0:
@@ -83,6 +87,9 @@ class Main:
                 if platform.power_up:
                     self.power_ups.add(platform.power_up)
                     self.all_sprites.add(platform.power_up)
+                if platform.coins:
+                    self.coins.add(platform.coins)
+                    self.all_sprites.add(platform.coins)
 
                 if isinstance(platform, BrokenPlatform):
                     for _ in range(5):
@@ -124,6 +131,13 @@ class Main:
                 self.all_sprites.remove(monster)
                 self.monsters.remove(monster)
 
+    def remove_offscreen_coins(self):
+        for coin in self.coins:
+            if coin.rect.top - 100 + self.all_sprites.offset.y > HEIGHT:
+                coin.kill()
+                self.all_sprites.remove(coin)
+                self.coins.remove(coin)
+
     def show_play_again_menu(self):
         play_again_menu = PlayAgainMenu(self.screen)
         choice = None
@@ -142,14 +156,24 @@ class Main:
             if choice == "play":
                 self.__init__()
                 self.run()
+            elif choice == "shop":
+                shop = Shop(self.screen)
+                shop.run()
             else:
                 pygame.quit()
                 sys.exit()
 
-    def draw_score(self, screen, score):
-        text = self.font.render(f'Score: {score}', True, (255, 0, 0))
-        screen.blit(text, (10, 10))
+    def draw_score(self, screen, score, coins):
+        score_text = self.font.render(f'Score: {score}', True, (255, 0, 0))
+        screen.blit(score_text, (10, 10))
+        coins_text = self.font.render(f'Coins: {coins}', True, (255, 0, 0))
+        screen.blit(coins_text, (290, 10))
 
+    def run_shop(self):
+        shop_menu = Shop(self.screen)
+        result = shop_menu.run()  # Ждем результат выполнения метода run()
+        if result == "menu":  # Если вернули "menu", то возвращаемся в главное меню
+            return
 
     def run(self):
         while self.running:
@@ -160,9 +184,10 @@ class Main:
                 if event.type == pygame.QUIT:
                     self.running = False
             keys = pygame.key.get_pressed()
-            self.player.update(keys, events, self.platforms, self.monsters)
+            self.player.update(keys, events, self.platforms, self.monsters, self.coins)
             self.bullets.update()
             self.monsters.update(self.bullets)
+            self.coins.update()
 
             for platform in self.platforms:
                 platform.update()
@@ -176,9 +201,10 @@ class Main:
             self.generate_new_platforms()
             self.remove_offscreen_platforms()
             self.remove_offscreen_monsters()
+            self.remove_offscreen_coins()
 
             self.all_sprites.draw(self.player.rect.center)
-            self.draw_score(self.screen, self.player.score)
+            self.draw_score(self.screen, self.player.score, Coin.coin_count)
 
             pygame.display.flip()
             self.clock.tick(FPS)
@@ -191,12 +217,16 @@ if __name__ == "__main__":
     pygame.init()
     screen = pygame.display.set_mode((WIDTH, HEIGHT))
 
-    menu = MainMenu(screen)
-    choice = menu.run()
+    while True:
+        menu = MainMenu(screen)
+        choice = menu.run()
 
-    if choice == "play":
-        game = Main()
-        game.run()
-    else:
-        pygame.quit()
-        sys.exit()
+        if choice == "play":
+            game = Main()
+            game.run()
+        elif choice == "shop":
+            shop = Shop(screen)
+            shop.run()
+        else:
+            pygame.quit()
+            sys.exit()

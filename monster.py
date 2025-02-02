@@ -26,6 +26,10 @@ class Monster(pygame.sprite.Sprite):
     def check_collision_bullet(self, bullets):
         for bullet in bullets:
             if self.rect.colliderect(bullet.rect):
-                self.kill()
+                self.death()
                 bullet.kill()
                 self.die_sound.play()
+
+    def death(self):
+        self.kill()
+        self.monster_sound.stop()

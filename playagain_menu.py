@@ -10,8 +10,8 @@ class PlayAgainMenu:
 
         self.sprite_sheet = pygame.image.load(join("assets", "buttons", "start-end-tiles.png"))
 
-        self.play_again_buttons = pygame.Rect(WIDTH // 2 - 100, HEIGHT // 2 + 20, 200, 60)
-        self.menu_buttons = pygame.Rect(WIDTH // 2 - 100, HEIGHT // 2 + 140, 200, 60)
+        self.play_again_buttons = pygame.Rect(WIDTH // 2 - 100, HEIGHT // 2 + 20, 220, 75)
+        self.menu_buttons = pygame.Rect(WIDTH // 2 - 100, HEIGHT // 2 + 140, 220, 75)
 
         self.play_again_button = self.sprite_sheet.subsurface(pygame.Rect(228,97,229,84))
         self.play_again_button_hover = pygame.image.load(join("assets", "buttons", "play_again_hover.png")).convert_alpha()
@@ -21,7 +21,6 @@ class PlayAgainMenu:
 
     def draw(self, score, high_score):
         self.screen.blit(self.bg, (0, 0))  # Фон
-
         game_over_text = self.font.render("game over!", True, (255, 0, 0))
         self.screen.blit(game_over_text, (WIDTH // 2 - game_over_text.get_width() // 2, HEIGHT // 2 - 180))
 
@@ -38,7 +37,6 @@ class PlayAgainMenu:
         # Menu
         menu_button_img = self.menu_button_hover if self.menu_buttons.collidepoint(mouse_pos) else self.menu_button_image
         self.screen.blit(menu_button_img, self.menu_buttons.topleft)
-
 
         pygame.display.flip()
 
