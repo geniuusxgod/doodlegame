@@ -63,22 +63,34 @@ Hra je veľmi minimalistická, assety použité ako v pôvodnej hre, že monštr
 <p align="center">
   <img src="https://github.com/geniuusxgod/doodlegame/blob/master/assets/player/right.png" alt="Player">
   <br>
-  <em>Obrázok 2 Ukážka sprite-ov hraca</em>
+  <em>Obrázok 2 Ukážka spritu hraca</em>
 </p>
 
 <p align="center">
   <img src="https://github.com/geniuusxgod/doodlegame/blob/master/monster.png" alt="Monster">
   <br>
-  <em>Obrázok 2 Ukážka sprite-ov monstrov</em>
+  <em>Obrázok 3 Ukážka spritu monstra</em>
+</p>
+
+<p align="center">
+  <img src="https://github.com/geniuusxgod/doodlegame/blob/master/booster.png" alt="Monster">
+  <br>
+  <em>Obrázok 4 Ukážka spritu boostera</em>
 </p>
 
 ### **3.2 Dizajn**
-V hre boli použité assety z itch.io, konkrétne Tiny Swords (https://pixelfrog-assets.itch.io/tiny-swords), s tým, že niektoré objekty budú slúžiť ako aktívne prekážky. Cieľom bolo dosiahnuť na pohľad príjemný animovaný dizajn v kontexte stredovekej fantasy. Ďalšie levely budú vychádzať z rovnakých assetov, pričom sa budú kombinovať rôzne terény a prostredia.
+V hre sa použili assety spritov z pôvodnej hry, ktoré som našiel (https://www.spriters-resource.com/mobile/doodlejump/sheet/51424/), pre mince sa použili sprites z itchio assetu (https://totuslotus.itch.io/pixel-coins), ktoré celkom dobre zapadajú do konceptu hry.
 
 <p align="center">
-  <img src="https://github.com/l-benko/OT_Game_2024/blob/main/level.png" alt="Level dizajn">
+  <img src="https://github.com/geniuusxgod/doodlegame/blob/master/menu.png" alt="Menu dizajn">
   <br>
-  <em>Obrázok 4 Ukážka dizajnu levelu</em>
+  <em>Obrázok 5 Ukážka dizajnu menu</em>
+</p>
+
+<p align="center">
+  <img src="https://github.com/geniuusxgod/doodlegame/blob/master/game.png" alt="Game dizajn">
+  <br>
+  <em>Obrázok 6 Ukážka dizajnu hry</em>
 </p>
 
 ---
