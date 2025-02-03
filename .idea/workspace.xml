@@ -4,20 +4,48 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="350e4d91-55e5-440f-b0c5-f3cdb26f0618" name="Changes" comment="sounds added, update collisions with monsters, added main_menu + play_again_menu">
-      <change afterPath="$PROJECT_DIR$/assets/coins/coin.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/player/shield_left.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/player/shield_right.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/shield/shield.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/coin.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/shop.py" afterDir="false" />
+    <list default="true" id="350e4d91-55e5-440f-b0c5-f3cdb26f0618" name="Changes" comment="bug fixed, added shop + coins + shield">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main_menu.py" beforeDir="false" afterPath="$PROJECT_DIR$/main_menu.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/monster.py" beforeDir="false" afterPath="$PROJECT_DIR$/monster.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/platforma.py" beforeDir="false" afterPath="$PROJECT_DIR$/platforma.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/playagain_menu.py" beforeDir="false" afterPath="$PROJECT_DIR$/playagain_menu.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/player.py" beforeDir="false" afterPath="$PROJECT_DIR$/player.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/background/bg.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/buttons/menu_hover.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/buttons/play.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/buttons/play_again_hover.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/buttons/play_hover.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/buttons/start-end-tiles.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/coins/coin.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/font/DoodleJump.ttf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/platforms+monsters/platform+monsters.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/player/bullet.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/player/left.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/player/left_jump.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/player/right.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/player/right_jump.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/player/shield_left.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/player/shield_right.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/player/shoot.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/player/shoot_jump.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/player/stars/1.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/player/stars/2.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/player/stars/3.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/power_ups/jetpack.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/shield/shield.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/sounds/break.mp3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/sounds/break.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/sounds/die_1.mp3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/sounds/die_1.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/sounds/fall.mp3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/sounds/jetpack.mp3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/sounds/jetpack.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/sounds/jump.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/sounds/monster.mp3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/sounds/monster.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/sounds/pop.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/sounds/shoot_1.mp3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/sounds/shoot_1.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/sounds/spring.mp3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/sounds/spring.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/sounds/trampoline.mp3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/sounds/trampoline.wav" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -56,26 +84,26 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Python.main.executor": "Run",
-    "Python.main_menu.executor": "Run",
-    "Python.platforma.executor": "Run",
-    "Python.playagain_menu.executor": "Run",
-    "Python.player.executor": "Run",
-    "Python.power_up.executor": "Run",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "git-widget-placeholder": "master",
-    "last_opened_file_path": "C:/Users/pavel/PycharmProjects/PythonProject/assets/player",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Python.main.executor&quot;: &quot;Run&quot;,
+    &quot;Python.main_menu.executor&quot;: &quot;Run&quot;,
+    &quot;Python.platforma.executor&quot;: &quot;Run&quot;,
+    &quot;Python.playagain_menu.executor&quot;: &quot;Run&quot;,
+    &quot;Python.player.executor&quot;: &quot;Run&quot;,
+    &quot;Python.power_up.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/pavel/PycharmProjects/DarkestCastle&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\pavel\PycharmProjects\PythonProject\assets\player" />
@@ -85,11 +113,11 @@
       <recent name="C:\Users\pavel\PycharmProjects\PythonProject\assets\power_ups" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\pavel\PycharmProjects\PythonProject\assets\sounds" />
       <recent name="C:\Users\pavel\PycharmProjects\PythonProject\assets\player" />
       <recent name="C:\Users\pavel\PycharmProjects\PythonProject\assets\shield" />
       <recent name="C:\Users\pavel\PycharmProjects\PythonProject\assets\coins" />
       <recent name="C:\Users\pavel\PycharmProjects\PythonProject\assets\buttons" />
-      <recent name="C:\Users\pavel\PycharmProjects\PythonProject\assets\sounds" />
     </key>
   </component>
   <component name="SharedIndexes">
@@ -120,7 +148,10 @@
       <workItem from="1738188658013" duration="505000" />
       <workItem from="1738248652385" duration="15810000" />
       <workItem from="1738424354264" duration="9981000" />
-      <workItem from="1738497008221" duration="12787000" />
+      <workItem from="1738497008221" duration="20938000" />
+      <workItem from="1738594645236" duration="1005000" />
+      <workItem from="1738595674729" duration="1640000" />
+      <workItem from="1738609338938" duration="1712000" />
     </task>
     <task id="LOCAL-00001" summary="creating project">
       <option name="closed" value="true" />
@@ -186,7 +217,15 @@
       <option name="project" value="LOCAL" />
       <updated>1738434030748</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="bug fixed, added shop + coins + shield">
+      <option name="closed" value="true" />
+      <created>1738512583041</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1738512583041</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -212,7 +251,8 @@
     <MESSAGE value="added power_ups" />
     <MESSAGE value="bug fixed with offset, added bullets + shooting method" />
     <MESSAGE value="sounds added, update collisions with monsters, added main_menu + play_again_menu" />
-    <option name="LAST_COMMIT_MESSAGE" value="sounds added, update collisions with monsters, added main_menu + play_again_menu" />
+    <MESSAGE value="bug fixed, added shop + coins + shield" />
+    <option name="LAST_COMMIT_MESSAGE" value="bug fixed, added shop + coins + shield" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/PythonProject$power_up.coverage" NAME="power_up Coverage Results" MODIFIED="1737994243370" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
@@ -220,6 +260,6 @@
     <SUITE FILE_PATH="coverage/PythonProject$platforma.coverage" NAME="platforma Coverage Results" MODIFIED="1738499212888" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/PythonProject$player.coverage" NAME="player Coverage Results" MODIFIED="1738499824128" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/PythonProject$main_menu.coverage" NAME="main_menu Coverage Results" MODIFIED="1738504920660" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/PythonProject$main.coverage" NAME="main Coverage Results" MODIFIED="1738512477507" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/PythonProject$main.coverage" NAME="main Coverage Results" MODIFIED="1738595773162" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
 </project>

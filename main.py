@@ -1,4 +1,5 @@
 from coin import Coin
+from power_up import PowerUp
 from settings import *
 from player import Player
 from monster import Monster
@@ -113,30 +114,19 @@ class Main:
                 return True
         return False
 
-    def remove_offscreen_platforms(self):
-        for platform in self.platforms:
-            if platform.rect.top - 100 + self.all_sprites.offset.y > HEIGHT:
-                platform.kill()
-                self.all_sprites.remove(platform)
-                self.platforms.remove(platform)
-                if platform.power_up:
-                    platform.power_up.kill()
-                    self.all_sprites.remove(platform.power_up)
-                    self.power_ups.remove(platform.power_up)
-
-    def remove_offscreen_monsters(self):
-        for monster in self.monsters:
-            if monster.rect.top - 100 + self.all_sprites.offset.y > HEIGHT:
-                monster.kill()
-                self.all_sprites.remove(monster)
-                self.monsters.remove(monster)
-
-    def remove_offscreen_coins(self):
-        for coin in self.coins:
-            if coin.rect.top - 100 + self.all_sprites.offset.y > HEIGHT:
-                coin.kill()
-                self.all_sprites.remove(coin)
-                self.coins.remove(coin)
+    def remove_offscreen_object(self):
+        for sprite in self.all_sprites:
+            if sprite.rect.top - 100 + self.all_sprites.offset.y > HEIGHT:
+                sprite.kill()
+                self.all_sprites.remove(sprite)
+                if isinstance(sprite, Platform):
+                    self.platforms.remove(sprite)
+                elif isinstance(sprite, PowerUp):
+                    self.power_ups.remove(sprite)
+                elif isinstance(sprite, Coin):
+                    self.coins.remove(sprite)
+                elif isinstance(sprite, Monster):
+                    self.monsters.remove(sprite)
 
     def show_play_again_menu(self):
         play_again_menu = PlayAgainMenu(self.screen)
@@ -199,9 +189,7 @@ class Main:
                 self.show_play_again_menu()
 
             self.generate_new_platforms()
-            self.remove_offscreen_platforms()
-            self.remove_offscreen_monsters()
-            self.remove_offscreen_coins()
+            self.remove_offscreen_object()
 
             self.all_sprites.draw(self.player.rect.center)
             self.draw_score(self.screen, self.player.score, Coin.coin_count)
