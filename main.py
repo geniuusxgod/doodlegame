@@ -36,8 +36,6 @@ class Main:
         self.power_ups = pygame.sprite.Group()
         self.coins = pygame.sprite.Group()
 
-        self.shop = Shop(self.screen)
-
         self.running = True
 
 
@@ -68,7 +66,7 @@ class Main:
             x = random.randint(0, WIDTH - 70)
             platform_type = random.choices(
                 [Platform, MovingPlatformHorizontal, BrokenPlatform],
-                weights=[0.8, 0.1, 0.1],
+                weights=[0.6, 0.2, 0.2],
                 k=1
             )[0]
 
@@ -105,8 +103,6 @@ class Main:
                             self.platforms.add(additional_platform)
                             self.all_sprites.add(additional_platform)
                             break
-
-
 
     def check_platform_collision(self, new_platform, platforms):
         for platform in platforms:
@@ -161,8 +157,8 @@ class Main:
 
     def run_shop(self):
         shop_menu = Shop(self.screen)
-        result = shop_menu.run()  # Ждем результат выполнения метода run()
-        if result == "menu":  # Если вернули "menu", то возвращаемся в главное меню
+        result = shop_menu.run()
+        if result == "menu":
             return
 
     def run(self):

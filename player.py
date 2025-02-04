@@ -107,20 +107,20 @@ class Player(pygame.sprite.Sprite):
         self.velocity_y = 0
 
     def check_bounds(self):
-        if self.rect.x < -self.rect.width:
+        if self.rect.left < 0:
             self.rect.x = WIDTH - self.rect.width
-        if self.rect.x + self.rect.width > WIDTH:
-            self.rect.x = -self.rect.width
+        if self.rect.right > WIDTH:
+            self.rect.x = 0
 
     def shoot(self, events):
         if not self.dead:
             for event in events:
                 if event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE:
-                    self._fire_bullet()
+                    self.fire_bullet()
                 elif event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
-                    self._fire_bullet()
+                    self.fire_bullet()
 
-    def _fire_bullet(self):
+    def fire_bullet(self):
         self.shooting = True
         self.right = False
         self.left = False
@@ -145,7 +145,7 @@ class Player(pygame.sprite.Sprite):
             self.shooting = False
         if platforms:
             lowest_platform = max(platforms, key=lambda p: p.rect.top)
-            if self.rect.top > lowest_platform.rect.top + 50:  # +50 небольшой запас
+            if self.rect.top > lowest_platform.rect.top + 50:
                 self.dead = True
         if self.shield and pygame.time.get_ticks() - self.shield_timer > 5000:
             self.deactivate_shield()
@@ -175,7 +175,6 @@ class Player(pygame.sprite.Sprite):
 
                     self.using_power_up = False
 
-                    # Проверка на PowerUp
                     if platform.power_up:
                         self.apply_power_ups(platform.power_up.power_up_type)
                         platform.power_up.kill()
@@ -189,6 +188,7 @@ class Player(pygame.sprite.Sprite):
                     if self.shield:
                         self.deactivate_shield()
                         monster.kill()
+                        monsters.remove(monster)
                     else:
                         self.dead = True
 

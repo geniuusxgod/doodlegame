@@ -13,7 +13,6 @@ class Shop:
         self.shield_img = pygame.transform.scale(self.shield_img, (50, 50))
         self.items = {'Shield': 10}
         self.selected_item = "Shield"
-        self.running = True
         self.back_to_menu_button = pygame.Rect(WIDTH // 2 - 100, HEIGHT - 100, 200, 50)
         self.font_exit = pygame.font.Font(join('assets', 'font', 'DoodleJump.ttf'), 40)
         self.message = ""
@@ -46,7 +45,7 @@ class Shop:
             self.message = "You don't have enough coins"
 
     def run(self):
-        while self.running:
+        while True:
             self.draw()
             pygame.display.flip()
 
@@ -55,13 +54,11 @@ class Shop:
                     pygame.quit()
                     sys.exit()
                 if event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
-                    self.running = False  # Закрываем меню и возвращаемся в главное меню
-                    return "menu"  # Переходим в главное меню
+                    return "menu"
                 if event.type == pygame.MOUSEBUTTONDOWN:
                     if self.back_to_menu_button.collidepoint(event.pos):
-                        self.running = False  # Закрываем меню и возвращаемся в главное меню
-                        return "menu"  # Переходим в главное меню
-                    if self.item_text_rect.collidepoint(event.pos):  # Проверка клика по тексту
+                        return "menu"
+                    if self.item_text_rect.collidepoint(event.pos):
                         self.buy_item()
 
         return "menu"

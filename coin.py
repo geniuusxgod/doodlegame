@@ -31,7 +31,3 @@ class Coin(pygame.sprite.Sprite):
             self.counter = 0
             self.frames_index = (self.frames_index + 1) % len(self.frames)
             self.image = self.frames[self.frames_index]
-
-
-
-
